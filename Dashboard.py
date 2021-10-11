@@ -8,6 +8,7 @@ import io
 import time
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+import os
 
 import Get_data_api
 import Figuren
@@ -26,25 +27,16 @@ st.title('Analyse Elektrische auto s')
 response_dataframe = Get_data_api.OpenChargeMap()
 
 
-# response_dataframe#.head()
-
-# response_dataframe.iloc[1]["Connections"]#[0]#["ConnectionTypeID"]
 
 
 
+laadpaal_data = Get_data_api.load_csv_laadpaal_data('laadpaaldata.csv')
 
+col1, col2 = st.columns(2)
 
-# Sjoerd zijn code
+col1.header("Original")
+col1.plotly_chart(Figuren.histogram(laadpaal_data))
 
-# laadpaal_data = Get_data_api.load_csv_laadpaal_data('D:/Documents/Pycharm/Case_opdrachten/Case3-elektrische-auto/laadpaaldata.csv')
-try:
-    laadpaal_data = Get_data_api.load_csv_laadpaal_data('laadpaaldata.csv')
-    st.write("Using short path")
-except:
-    laadpaal_data = Get_data_api.load_csv_laadpaal_data(
-        'D:/Documents/Pycharm/Case_opdrachten/Case3-elektrische-auto/laadpaaldata.csv')
-    st.write("Using full path")
+col2.header("Grayscale")
+col2.plotly_chart(Figuren.histogram(laadpaal_data))
 
-fig = Figuren.histogram(laadpaal_data)
-
-st.plotly_chart(fig)

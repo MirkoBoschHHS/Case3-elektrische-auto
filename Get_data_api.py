@@ -16,3 +16,17 @@ def OpenChargeMap(max_results=10):
   response_dataframe = pd.json_normalize(response.json())
   
   return response_dataframe
+
+
+def load_csv_laadpaal_data(path):
+  # Data inladen
+  laadpaal_data = pd.read_csv(path)
+
+  # Data inspecteren
+  laadpaal_data = laadpaal_data[laadpaal_data.ChargeTime >= 0]
+  laadpaal_data['Charge/Connected'] = laadpaal_data.ChargeTime / laadpaal_data.ConnectedTime
+  laadpaal_data = laadpaal_data[laadpaal_data['Charge/Connected'] <= 1]
+
+
+  # Terug sturen van de data
+  return laadpaal_data

@@ -2,9 +2,8 @@ import requests
 import json
 import pandas as pd
 
-def OpenChargeMap():
+def OpenChargeMap(max_results=10):
   # Max results to load with api
-  max_results = 100
   key = "7854aa82-723c-48d4-afb4-3c437a9db1c9"
   country_code = "NL"
 

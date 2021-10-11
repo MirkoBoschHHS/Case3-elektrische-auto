@@ -220,12 +220,15 @@ def add_categorical_legend(folium_map, title, colors, labels):
 
     return folium_map
 
-def map(response_dataframe):
+def map(response_dataframe, max_results):
     m = folium.Map(location=[52.0893191, 5.1101691], zoom_start=7)
 
     # Expres gebruik gemaakt van Circle
     # nu worden die circles niet enorm groot bij het uitzoemen
     # Als je inzoom zie ook dat ze verschillende radius hebben
+
+    bar = st.progress(0)
+    i = 0
 
     for row in response_dataframe.iterrows():
         row_values = row[1]
@@ -238,7 +241,15 @@ def map(response_dataframe):
                                popup='<strong>' + str(row_values['OperatorInfo.Title']) + '</strong>', )
         marker.add_to(m)
 
-    return m
+        i += 1
+        value = int(i / ((max_results / 100)))
+        if(value > 98):
+            value = 98
+        bar.progress(value)
+
+
+
+    return m ,bar
 
 
 

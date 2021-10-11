@@ -11,6 +11,7 @@ from plotly.subplots import make_subplots
 
 import Get_data_api
 
+st.set_page_config(layout="wide")
 
 st.title('Analyse Elektrische auto s')
 

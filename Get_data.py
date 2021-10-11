@@ -4,7 +4,7 @@ import pandas as pd
 import os
 import streamlit as st
 
-def OpenChargeMap(max_results=10):
+def OpenChargeMap(max_results=50):
   # Max results to load with api
   key = "7854aa82-723c-48d4-afb4-3c437a9db1c9"
   country_code = "NL"

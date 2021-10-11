@@ -1,6 +1,8 @@
 import requests
 import json
 import pandas as pd
+import os
+import streamlit as st
 
 def OpenChargeMap(max_results=10):
   # Max results to load with api
@@ -20,7 +22,19 @@ def OpenChargeMap(max_results=10):
 
 def load_csv_laadpaal_data(path):
   # Data inladen
-  laadpaal_data = pd.read_csv(path)
+  for i in range(0, 2):
+    try:
+      laadpaal_data = pd.read_csv(path)
+      break
+    except:
+      if (i == 0): # Try changing directory
+        abspath = os.path.abspath(__file__)
+        dname = os.path.dirname(abspath)
+        os.chdir(dname)
+        #st.write("Change directory")
+      else: # Could not find
+        st.error("Could not find file '" + path + "' on location: " + str(os.getcwd()))
+        return None
 
   # Data inspecteren
   laadpaal_data = laadpaal_data[laadpaal_data.ChargeTime >= 0]
@@ -30,3 +44,4 @@ def load_csv_laadpaal_data(path):
 
   # Terug sturen van de data
   return laadpaal_data
+

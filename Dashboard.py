@@ -10,7 +10,7 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import os
 
-import Get_data_api
+import Get_data
 import Figuren
 
 # Enkele standaard opties
@@ -24,13 +24,13 @@ st.title('Analyse Elektrische auto s')
 
 
 
-response_dataframe = Get_data_api.OpenChargeMap()
+response_dataframe = Get_data.OpenChargeMap()
 
 
 
 
 
-laadpaal_data = Get_data_api.load_csv_laadpaal_data('laadpaaldata.csv')
+laadpaal_data = Get_data.load_csv_laadpaal_data('laadpaaldata.csv')
 
 col1, col2 = st.columns(2)
 

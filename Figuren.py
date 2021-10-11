@@ -9,7 +9,7 @@ def histogram_laadtijd_elek_auto(laadpaal_data):
                              bin_size=0.25,  # elke bin komt overeen met 15 minuten
                              show_rug=False,
                              curve_type='kde',
-                             histnorm='probability density')
+                             histnorm='probability density',)
 
     annotation_mean = {'xref': 'paper',
                        'yref': 'paper',
@@ -33,6 +33,10 @@ def histogram_laadtijd_elek_auto(laadpaal_data):
 
     fig.update_xaxes(title_text='Laadtijd in uren')
     fig.update_yaxes(title_text='Dichtheid')
+    fig.update_layout(
+        autosize=False,
+        width=800,
+        height=550, )
 
     return fig
 
@@ -221,7 +225,10 @@ def add_categorical_legend(folium_map, title, colors, labels):
     return folium_map
 
 def map(response_dataframe, max_results):
-    m = folium.Map(location=[52.0893191, 5.1101691], zoom_start=7)
+    sw = response_dataframe[['AddressInfo.Latitude', 'AddressInfo.Longitude']].quantile(0.05).values.tolist()
+    ne = response_dataframe[['AddressInfo.Latitude', 'AddressInfo.Longitude']].quantile(0.95).values.tolist()
+
+    m = folium.Map()#location=[average_lat, average_lon], zoom_start=zoom)
 
     # Expres gebruik gemaakt van Circle
     # nu worden die circles niet enorm groot bij het uitzoemen
@@ -238,7 +245,8 @@ def map(response_dataframe, max_results):
                                fill=True,
                                fill_color=color_producer(row_values['OperatorInfo.Title']),
                                color=color_producer(row_values['OperatorInfo.Title']),
-                               popup='<strong>' + str(row_values['OperatorInfo.Title']) + '</strong>', )
+                               popup='<strong>' + str(row_values['OperatorInfo.Title']) + '</strong>',
+                               )
         marker.add_to(m)
 
         i += 1
@@ -247,8 +255,7 @@ def map(response_dataframe, max_results):
             value = 98
         bar.progress(value)
 
-
-
+    m.fit_bounds([sw, ne])
     return m ,bar
 
 

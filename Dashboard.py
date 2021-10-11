@@ -9,6 +9,8 @@ import time
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import os
+from streamlit_folium import folium_static
+import folium
 
 import Get_data
 import Figuren
@@ -23,20 +25,24 @@ pd.set_option('display.max_columns', None) # Print alles van de DataFrame pandas
 st.title('Analyse Elektrische auto s')
 
 
-
+# Get data from API / CSV
 response_dataframe = Get_data.OpenChargeMap()
-
-
-
-
-
 laadpaal_data = Get_data.load_csv_laadpaal_data('laadpaaldata.csv')
+
+
 
 col1, col2 = st.columns(2)
 
-col1.header("Original")
-col1.plotly_chart(Figuren.histogram(laadpaal_data))
+# ---------- Histogram van laadtijd ----------
+col1.plotly_chart(Figuren.histogram_laadtijd_elek_auto(laadpaal_data))
 
-col2.header("Grayscale")
-col2.plotly_chart(Figuren.histogram(laadpaal_data))
+
+# ---------- Voeg de map van locaties toe ----------
+m = Figuren.map(response_dataframe)
+with col2:
+    folium_static(m)
+
+
+
+
 

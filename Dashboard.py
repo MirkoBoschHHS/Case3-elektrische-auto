@@ -23,3 +23,5 @@ response_dataframe = Get_data_api.OpenChargeMap()
 
 pd.set_option('display.max_columns', None)
 response_dataframe#.head()
+
+response_dataframe.iloc[1]["Connections"]#[0]#["ConnectionTypeID"]

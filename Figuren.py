@@ -255,6 +255,17 @@ def map(response_dataframe, max_results):
             value = 98
         bar.progress(value)
 
+    import geocoder
+    g = geocoder.ip('me').latlng
+    # st.write(g.latlng)
+
+    location = g
+    marker_location = row_values['AddressInfo.Town']
+    marker = folium.Marker(location=location,
+                           popup='<strong>' + str("Your location based on IP") + '</strong>',
+                           )
+    marker.add_to(m)
+
     m.fit_bounds([sw, ne])
     return m ,bar
 

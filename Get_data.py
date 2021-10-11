@@ -14,7 +14,7 @@ def OpenChargeMap(max_results=50):
   key = "7854aa82-723c-48d4-afb4-3c437a9db1c9"
 
   country = st.multiselect(
-    "Kies een landcode", countries, ["NL", "BE"]
+    "Kies een landcode (Waarschuwing: Hoe meer landen geselecteerd hoe langer het duurt.)", countries, ["NL", "BE"]
   )
   if not country:
         st.error("Please select at least one station.")
@@ -22,8 +22,6 @@ def OpenChargeMap(max_results=50):
   else:
     response_dataframe = pd.DataFrame({})
 
-
-  country_code = country[0]
 
   for country_code in country:
     #Get data
@@ -64,3 +62,5 @@ def load_csv_laadpaal_data(path):
 
 def rdw_data():
   voertuigen = pd.read_csv('voertuigen.csv')
+
+

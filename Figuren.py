@@ -228,7 +228,7 @@ def map(response_dataframe, max_results):
     sw = response_dataframe[['AddressInfo.Latitude', 'AddressInfo.Longitude']].quantile(0.05).values.tolist()
     ne = response_dataframe[['AddressInfo.Latitude', 'AddressInfo.Longitude']].quantile(0.95).values.tolist()
 
-    m = folium.Map()#location=[average_lat, average_lon], zoom_start=zoom)
+    m = folium.Map(tiles='Carto DB Positron')#location=[average_lat, average_lon], zoom_start=zoom)
 
     # Expres gebruik gemaakt van Circle
     # nu worden die circles niet enorm groot bij het uitzoemen

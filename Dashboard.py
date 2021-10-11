@@ -19,14 +19,18 @@ import Figuren
 st.set_page_config(layout="wide") # Zorgt voor default wide op streamlit
 pd.set_option('display.max_columns', None) # Print alles van de DataFrame pandas
 
-
+# Get secrets
+try:
+    max_results = st.secrets["max_results"]
+except:
+    max_results = 50
 
 # Maak een titel
 st.title('Analyse Elektrische auto s')
 
 
 # Get data from API / CSV
-response_dataframe = Get_data.OpenChargeMap()
+response_dataframe = Get_data.OpenChargeMap(max_results)
 laadpaal_data = Get_data.load_csv_laadpaal_data('laadpaaldata.csv')
 
 

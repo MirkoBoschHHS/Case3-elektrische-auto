@@ -11,10 +11,7 @@ from plotly.subplots import make_subplots
 
 import Get_data_api
 
-st.image(
-    "https://i.ibb.co/R79T9ct/Naamloos.png",
-    # Manually Adjust the width of the image as per requirement
-)
+
 st.title('Analyse Elektrische auto s')
 
 

@@ -8,14 +8,15 @@ countries = ['NL', 'FR', 'DE', 'BE']
 
 response_dataframe = 0
 
-def OpenChargeMap(max_results=50):
+def OpenChargeMap(col, max_results=50):
   global response_dataframe
   # Max results to load with api
   key = "7854aa82-723c-48d4-afb4-3c437a9db1c9"
 
-  country = st.multiselect(
-    "Kies een landcode (Waarschuwing: Hoe meer landen geselecteerd hoe langer het duurt.)", countries, ["NL"]
-  )
+  country = col.radio(
+    "Kies een landcode", countries)#, ["NL"])
+
+
   if not country:
         st.error("Please select at least one station.")
         return response_dataframe
@@ -23,14 +24,14 @@ def OpenChargeMap(max_results=50):
     response_dataframe = pd.DataFrame({})
 
 
-  for country_code in country:
-    #Get data
-    # url = r'https://api.openchargemap.io/v3/poi/?key=7854aa82-723c-48d4-afb4-3c437a9db1c9?output=kml&countrycode=NL&maxresults=2'
-    url = r'https://api.openchargemap.io/v3/poi/?key=' + str(key) + '?output=json&countrycode=' + str(country_code) + '&maxresults=' + str(max_results)
-    # url = 'https://api.openchargemap.io/v3/poi/?output=json&countrycode=' + str(country_code) + '&maxresults=' + str(max_results) + '&compact=true&verbose=false&key=' + str(key) + ')'
-    response = requests.get(url)
-    response_json = json.loads(response.text)
-    response_dataframe = pd.concat([response_dataframe, pd.json_normalize(response.json())])
+  # for country_code in country:
+  #Get data
+  # url = r'https://api.openchargemap.io/v3/poi/?key=7854aa82-723c-48d4-afb4-3c437a9db1c9?output=kml&countrycode=NL&maxresults=2'
+  url = r'https://api.openchargemap.io/v3/poi/?key=' + str(key) + '?output=json&countrycode=' + str(country) + '&maxresults=' + str(max_results)
+  # url = 'https://api.openchargemap.io/v3/poi/?output=json&countrycode=' + str(country_code) + '&maxresults=' + str(max_results) + '&compact=true&verbose=false&key=' + str(key) + ')'
+  response = requests.get(url)
+  response_json = json.loads(response.text)
+  response_dataframe = pd.concat([response_dataframe, pd.json_normalize(response.json())])
   # st.write(url)
   return response_dataframe
 

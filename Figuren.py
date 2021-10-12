@@ -1,6 +1,7 @@
 import plotly.figure_factory as ff
 import folium
 import streamlit as st
+import plotly.express as px
 
 
 def histogram_laadtijd_elek_auto(laadpaal_data):
@@ -224,7 +225,7 @@ def add_categorical_legend(folium_map, title, colors, labels):
 
     return folium_map
 
-def map(response_dataframe, max_results):
+def map_folium(response_dataframe, max_results):
     sw = response_dataframe[['AddressInfo.Latitude', 'AddressInfo.Longitude']].quantile(0.05).values.tolist()
     ne = response_dataframe[['AddressInfo.Latitude', 'AddressInfo.Longitude']].quantile(0.95).values.tolist()
 
@@ -262,6 +263,26 @@ def map(response_dataframe, max_results):
 
 
 
-
-
 #---------------------------------------------------
+
+
+def lijn(autos_per_maand_cum):
+    autos_per_maand_cum.reset_index(drop=False, inplace=True)
+    autos_per_maand_cum['Jaar'] = autos_per_maand_cum['Tijd in jaren'].astype(int)
+    autos_per_maand_cum['Maand'] = (
+                (autos_per_maand_cum['Tijd in jaren'] - autos_per_maand_cum['Jaar'] + 1 / 12) * 12).astype(int)
+    autos_per_maand_cum.rename(columns={'Teller': "Aantal auto's"}, inplace=True)
+
+    fig = px.line(autos_per_maand_cum,
+                  x='Tijd in jaren',
+                  y="Aantal auto's",
+                  line_group='Brandstof',
+                  color='Brandstof',
+                  hover_data={'Tijd in jaren': False, 'Brandstof': True, "Aantal auto's": True, 'Jaar': True,
+                              'Maand': True},
+                  title="Lijndiagram cumulatieve som aantal auto's per brandstofcategorie vs. tijd in jaren")
+
+    return fig
+
+
+

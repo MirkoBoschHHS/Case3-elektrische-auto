@@ -36,7 +36,8 @@ laadpaal_data = Get_data.load_csv_laadpaal_data('laadpaaldata.csv')
 
 
 
-m, bar = Figuren.map(response_dataframe, max_results)
+m, bar = Figuren.map_folium(response_dataframe, max_results)
+
 col1, col2 = st.columns(2)
 
 # ---------- Histogram van laadtijd ----------
@@ -51,7 +52,8 @@ with col2:
 bar.progress(100)
 bar.empty()
 
-''
-
+autos_per_maand_cum = Get_data.rdw_data()
+fig = Figuren.lijn(autos_per_maand_cum)
+st.plotly_chart(fig)
 
 

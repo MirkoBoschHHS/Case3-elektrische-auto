@@ -14,7 +14,7 @@ def OpenChargeMap(max_results=50):
   key = "7854aa82-723c-48d4-afb4-3c437a9db1c9"
 
   country = st.multiselect(
-    "Kies een landcode (Waarschuwing: Hoe meer landen geselecteerd hoe langer het duurt.)", countries, ["NL", "BE"]
+    "Kies een landcode (Waarschuwing: Hoe meer landen geselecteerd hoe langer het duurt.)", countries, ["NL"]
   )
   if not country:
         st.error("Please select at least one station.")
@@ -61,6 +61,20 @@ def load_csv_laadpaal_data(path):
   return laadpaal_data
 
 def rdw_data():
-  voertuigen = pd.read_csv('voertuigen.csv')
+  rdw_data = pd.read_csv('rdw_data.csv')
+  rdw_data['Tijd in jaren'] = rdw_data['Jaar'] + (rdw_data['Maand'] - 1) / 12
+  rdw_data.drop(columns=['Unnamed: 0'], inplace=True)
+  rdw_data['Teller'] = 1
+  rdw_data[rdw_data['Brandstof'] == 'Elektriciteit'].groupby('Jaar')['Teller'].sum()
+  rdw_data = rdw_data[rdw_data['Jaar'] >= 2004]
+  rdw_data['Brandstof'].value_counts()
+  rdw_data.Brandstof = rdw_data.Brandstof.str.replace('CNG', 'Overig')
+  rdw_data.Brandstof = rdw_data.Brandstof.str.replace('LNG', 'Overig')
+  rdw_data.Brandstof = rdw_data.Brandstof.str.replace('Alcohol', 'Overig')
+  rdw_data.Brandstof = rdw_data.Brandstof.str.replace('Waterstof', 'Overig')
+  autos_per_maand = pd.DataFrame(rdw_data.groupby(['Tijd in jaren', 'Brandstof'])['Teller'].sum())
+  autos_per_maand_cum = pd.DataFrame(autos_per_maand.groupby('Brandstof')['Teller'].cumsum())
+  autos_per_maand_cum.rename(columns={'Teller': 'Cumulatief'})
 
+  return autos_per_maand_cum
 

@@ -61,7 +61,8 @@ def load_csv_laadpaal_data(path):
   return laadpaal_data
 
 def rdw_data():
-  rdw_data = pd.read_csv('rdw_data.csv')
+  # rdw_data = pd.read_csv('rdw_data.csv')
+  rdw_data = pd.read_parquet('rdw_data.gzip')
   rdw_data['Tijd in jaren'] = rdw_data['Jaar'] + (rdw_data['Maand'] - 1) / 12
   rdw_data.drop(columns=['Unnamed: 0'], inplace=True)
   rdw_data['Teller'] = 1

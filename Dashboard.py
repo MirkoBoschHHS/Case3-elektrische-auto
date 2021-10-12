@@ -41,6 +41,7 @@ laadpaal_data = Get_data.load_csv_laadpaal_data('laadpaaldata.csv')
 
 
 # ---------- Histogram van laadtijd ----------
+st.header("Wat is de laadtijd van elektrische auto\'s")
 col1, col2 = st.columns([1,2])
 col1.write("Hier nog een tekst of interactie")
 col2.plotly_chart(Figuren.histogram_laadtijd_elek_auto(laadpaal_data))

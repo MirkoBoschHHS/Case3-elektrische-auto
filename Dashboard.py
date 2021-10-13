@@ -72,7 +72,7 @@ autos_per_maand_cum = Get_data.rdw_data()
 #fig = Figuren.lijn(autos_per_maand_cum)
 #col2.plotly_chart(fig)
 
-
+st.write("Succes")
 
 
 

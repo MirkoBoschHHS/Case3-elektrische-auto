@@ -70,8 +70,8 @@ col1, col2 = st.columns([1,2])
 col1.write("Hier nog een tekst of interactie")
 autos_per_maand_cum = Get_data.rdw_data()
 fig = Figuren.lijn(autos_per_maand_cum)
-st.write("Plotting figure...")
-#col2.plotly_chart(fig)
+col2.write("Plotting figure...")
+col2.plotly_chart(fig)
 
 st.write("Succes")
 
